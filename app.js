@@ -17,7 +17,11 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://admin2:admin2@cluster0.0xrbk.mongodb.net/BlogDb",{useNewUrlParser:true ,useUnifiedTopology:true , useFindAndModify:false});
+mongoose.connect("mongodb+srv://<username>:<password>@cluster0.0xrbk.mongodb.net/BlogDb", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
 
 
 const postSchema = {
@@ -70,11 +74,11 @@ app.post("/compose", function(req, res){
 app.get("/posts/:postId", function(req, res){
   const requestedId = req.params.postId;
 
-  Post.findOne({_id:requestedId},function(err,posts){
+  Post.findOne({_id: requestedId}, function(err, post){
     if(!err){
       res.render("post", {
-        title: posts.title,
-        content: posts.content
+        title: post.title,
+        content: post.content
       });
     }
   });
@@ -83,7 +87,7 @@ app.get("/posts/:postId", function(req, res){
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 3000;
+  port = 3003;
 }
 
 app.listen(port, function() {
